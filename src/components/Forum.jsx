@@ -686,7 +686,7 @@ ${targetInstruction}`;
         }
         if (onChatEventPost) {
           onChatEventPost(newPost);
-          markUnseenDot("forum");
+          markUnseen("forum");
         }
         if (typeof showToast === "function") showToast("info", `${charNick}在生活圈发布了一条帖子`);
       }

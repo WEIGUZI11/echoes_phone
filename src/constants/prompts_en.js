@@ -486,6 +486,23 @@ export const STYLE_PROMPTS_EN = {
   6. Output Structure: This must be a unified, cohesive narrative stream. Output the entire response as **ONE SINGLE, CONTINUOUS, NOVEL-STYLE** message (IMPORTANT). At least 800 words.`,
 };
 
+// ============================================================
+// [NSFW switch] Whether the Creation Assistant generates NSFW (kink/anatomy) content.
+// To restore: change false back to true below. No other code changes needed.
+// When off: the related sections are stripped out and never sent to the AI.
+// ============================================================
+export const INCLUDE_NSFW_CONTENT = false;
+
+// [NSFW section · Design philosophy · EN] Removed when the switch is off
+export const CHARACTER_CREATION_NSFW_SECTION_EN = `### 4. Pathology of Desire (NSFW Logic)
+* **Abstraction Rule**: Kinks are the physiological projection of psychological needs.
+* **Execution Strategy**: Don't just list kinks. Must explain the **psychological cause** (e.g., control desire stems from life disorder, masochism stems from wanting to put down burdens). Must precisely describe anatomical details (size, color, shape) and physiological response mechanisms.
+
+`;
+
+// [NSFW section · Output fields · EN] Removed when the switch is off
+export const CHARACTER_CREATION_NSFW_YAML_EN = `  NSFW_information:\\n    Orientation: \\n    Experience: \\n    Anatomy: (specific intimate physical description)\\n    Sexual_Role: \\n    Sexual_Habits:\\n      - Foreplay preferences\\n      - Intercourse style\\n      - Post-coital behavior\\n    Kinks: (kink list with psychological origins)\\n    Limits: (hard limits)`;
+
 export const CHARACTER_CREATION_PROMPT = `# Role: Expert Character Architect & Prompt Engineer
 
 ## Core Objective
@@ -507,11 +524,7 @@ Your task is to expand the user's brief description (User Input) into a **high-p
 * **Abstraction Rule**: A person is the sum of their social relationships.
 * **Execution Strategy**: Must create 3-4 specific, named **NPCs (supporting characters)**. Clearly define their **functional role** in the protagonist's life (e.g., enabler, emotional anchor, nemesis).
 
-### 4. Pathology of Desire (NSFW Logic)
-* **Abstraction Rule**: Kinks are the physiological projection of psychological needs.
-* **Execution Strategy**: Don't just list kinks. Must explain the **psychological cause** (e.g., control desire stems from life disorder, masochism stems from wanting to put down burdens). Must precisely describe anatomical details (size, color, shape) and physiological response mechanisms.
-
-### 5. World Building & Atmosphere
+${INCLUDE_NSFW_CONTENT ? CHARACTER_CREATION_NSFW_SECTION_EN : ""}### 5. World Building & Atmosphere
 * **Abstraction Rule**: The environment must be a container for the character's personality.
 * **Execution Strategy**:
     * **Naming**: Create an aesthetically pleasing or regionally distinctive **fictional city name**.
@@ -526,7 +539,7 @@ Strictly output in the following JSON structure, with the content section using 
 \`\`\`json
 {
   "name": "Character Name",
-  "description": "<info>\\n<character>\\n\`\`\`yaml\\nCharacterName:\\n  full_name: \\n  Nickname: (different names used by friends/elders/enemies)\\n  age: \\n  birthday: (specific date + zodiac sign)\\n  gender: \\n  height: \\n  weight: \\n  identity:\\n    - (surface-level occupation)\\n    - (deeper identity/hobby)\\n\\n  appearance:\\n    hair: (color, texture, bangs, dye/perm)\\n    eyes: (iris color, eye shape, gaze quality)\\n    skin: (tone, texture, body temperature, moles/scars/tattoos)\\n    face_style: (facial feature details)\\n    build: (frame, muscle/fat distribution, posture)\\n    attire:\\n      business: (work outfit with brand names)\\n      casual: (casual outfit)\\n      accessories: (jewelry and their origins)\\n    scent: (mixed scent description)\\n    voice: (vocal quality, speech rate, verbal tics)\\n\\n  background_story:\\n    Family_Origin:\\n      - (father's name/occupation/personality)\\n      - (mother's name/occupation/personality)\\n      - (family atmosphere)\\n    Childhood_0to12:\\n      - (childhood events that shaped their core)\\n    Adolescence_13to18:\\n      - (education, friendships, first love/sexual awakening)\\n      - (key turning point)\\n    Present:\\n      - (current situation, finances, living arrangement, psychology)\\n      - (how the bond with {{user}} began)\\n\\n  personality:\\n    default:\\n      traits:\\n        - Trait 1: Deep analysis\\n        - Trait 2: Deep analysis\\n    private_romantic:\\n      traits:\\n        - Contrast trait 1: Analysis\\n        - Contrast trait 2: Analysis\\n\\n  social_status:\\n    Reputation: (public perception)\\n    NPCs:\\n      - NPC1: Relationship description\\n      - NPC2: Relationship description\\n      - NPC3: Relationship description\\n\\n  lifestyle:\\n    Diet: (taste preferences)\\n    Routine: (daily schedule)\\n    Hobbies: (specific hobbies)\\n    Living: (living environment description)\\n\\n  NSFW_information:\\n    Orientation: \\n    Experience: \\n    Anatomy: (specific intimate physical description)\\n    Sexual_Role: \\n    Sexual_Habits:\\n      - Foreplay preferences\\n      - Intercourse style\\n      - Post-coital behavior\\n    Kinks: (kink list with psychological origins)\\n    Limits: (hard limits)\\n\`\`\`\\n</character>\\n\\n<writing_rule>\\n(Writing style guidance)\\n</writing_rule>\\n</info>",
+  "description": "<info>\\n<character>\\n\`\`\`yaml\\nCharacterName:\\n  full_name: \\n  Nickname: (different names used by friends/elders/enemies)\\n  age: \\n  birthday: (specific date + zodiac sign)\\n  gender: \\n  height: \\n  weight: \\n  identity:\\n    - (surface-level occupation)\\n    - (deeper identity/hobby)\\n\\n  appearance:\\n    hair: (color, texture, bangs, dye/perm)\\n    eyes: (iris color, eye shape, gaze quality)\\n    skin: (tone, texture, body temperature, moles/scars/tattoos)\\n    face_style: (facial feature details)\\n    build: (frame, muscle/fat distribution, posture)\\n    attire:\\n      business: (work outfit with brand names)\\n      casual: (casual outfit)\\n      accessories: (jewelry and their origins)\\n    scent: (mixed scent description)\\n    voice: (vocal quality, speech rate, verbal tics)\\n\\n  background_story:\\n    Family_Origin:\\n      - (father's name/occupation/personality)\\n      - (mother's name/occupation/personality)\\n      - (family atmosphere)\\n    Childhood_0to12:\\n      - (childhood events that shaped their core)\\n    Adolescence_13to18:\\n      - (education, friendships, first love/sexual awakening)\\n      - (key turning point)\\n    Present:\\n      - (current situation, finances, living arrangement, psychology)\\n      - (how the bond with {{user}} began)\\n\\n  personality:\\n    default:\\n      traits:\\n        - Trait 1: Deep analysis\\n        - Trait 2: Deep analysis\\n    private_romantic:\\n      traits:\\n        - Contrast trait 1: Analysis\\n        - Contrast trait 2: Analysis\\n\\n  social_status:\\n    Reputation: (public perception)\\n    NPCs:\\n      - NPC1: Relationship description\\n      - NPC2: Relationship description\\n      - NPC3: Relationship description\\n\\n  lifestyle:\\n    Diet: (taste preferences)\\n    Routine: (daily schedule)\\n    Hobbies: (specific hobbies)\\n    Living: (living environment description)\\n${INCLUDE_NSFW_CONTENT ? CHARACTER_CREATION_NSFW_YAML_EN : ""}\\n\`\`\`\\n</character>\\n\\n<writing_rule>\\n(Writing style guidance)\\n</writing_rule>\\n</info>",
   "first_mes": "(An immersive opening scene of 100-300 words. Must be concise and powerful, containing: 1. Environmental sketch. 2. Character's current action. 3. An opportunity for interaction with {{user}}. Strictly under 300 words.)",
   "character_book": {
     "entries": [

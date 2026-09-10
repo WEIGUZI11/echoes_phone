@@ -647,6 +647,23 @@ export const STYLE_PROMPTS = {
   6. Output Structure: This must be a unified, cohesive narrative stream. Output the entire response as **ONE SINGLE, CONTINUOUS, NOVEL-STYLE** message (IMPORTANT). At least 500 Chinese characters.`,
 };
 
+// ============================================================
+// [NSFW 开关] 创作助手是否生成 NSFW（性癖/解剖学）相关内容。
+// 需要恢复时：把下边的 false 改回 true 即可，无需改动其它任何代码。
+// 关闭时：相关段落会被下面的条件拼接逻辑整段剔除，不会传给 AI。
+// ============================================================
+export const INCLUDE_NSFW_CONTENT = false;
+
+// [NSFW 段·设计哲学·中文] 关闭开关后此段将被剔除
+export const CHARACTER_CREATION_NSFW_SECTION_ZH = `### 4. 欲望的病理分析 (Pathology of Desire - NSFW Logic)
+* **抽象法则**：性癖是心理需求的生理投射。
+* **执行策略**：不要只列出XP（性癖）清单。必须解释**心理成因**（例如：控制欲源于生活失序，受虐欲源于渴望卸下重担）。必须精确描写解剖学细节（尺寸、颜色、形状）及生理反应机制。
+
+`;
+
+// [NSFW 段·输出字段·中文] 关闭开关后此段将被剔除
+export const CHARACTER_CREATION_NSFW_YAML_ZH = `  NSFW_information:\\n    Orientation: \\n    Experience: \\n    Anatomy: (隐私部位具体描写)\\n    Sexual_Role: \\n    Sexual_Habits:\\n      - 前戏偏好\\n      - 性爱风格\\n      - 事后反应\\n    Kinks: (性癖列表及成因)\\n    Limits: (雷点)`;
+
 export const CHARACTER_CREATION_PROMPT = `# Role: 专家级角色架构师 & 提示词工程师 (Expert Character Architect)
 
 ## Core Objective (核心目标)
@@ -668,11 +685,7 @@ export const CHARACTER_CREATION_PROMPT = `# Role: 专家级角色架构师 & 提
 * **抽象法则**：人是社会关系的总和。
 * **执行策略**：必须创造3-4个具体的、有名字的**NPC（配角）**。明确定义他们在主角生命中的**功能性角色**（如：纵容者、情感锚点、宿敌）。
 
-### 4. 欲望的病理分析 (Pathology of Desire - NSFW Logic)
-* **抽象法则**：性癖是心理需求的生理投射。
-* **执行策略**：不要只列出XP（性癖）清单。必须解释**心理成因**（例如：控制欲源于生活失序，受虐欲源于渴望卸下重担）。必须精确描写解剖学细节（尺寸、颜色、形状）及生理反应机制。
-
-### 5. 世界构建与氛围 (World Building & Atmosphere)
+${INCLUDE_NSFW_CONTENT ? CHARACTER_CREATION_NSFW_SECTION_ZH : ""}### 5. 世界构建与氛围 (World Building & Atmosphere)
 * **抽象法则**：环境必须是角色性格的容器。
 * **执行策略**：
     * **命名**：创建一个具有美感或地域特色的**虚构城市名**。
@@ -687,7 +700,7 @@ export const CHARACTER_CREATION_PROMPT = `# Role: 专家级角色架构师 & 提
 \`\`\`json
 {
   "name": "角色名",
-  "description": "<info>\\n<character>\\n\`\`\`yaml\\n角色名:\\n  Chinese_name: \\n  Nickname: (朋友/长辈/仇人的不同称呼)\\n  age: \\n  birthday: (具体日期+星座)\\n  gender: \\n  height: \\n  weight: \\n  identity:\\n    - (表层职业)\\n    - (深层身份/爱好)\\n\\n  appearance:\\n    hair: (发色、发质、刘海、染烫)\\n    eyes: (瞳色、眼型、眼神)\\n    skin: (肤色、触感、体温、痣/疤痕/纹身)\\n    face_style: (五官细节)\\n    build: (骨架、肌肉/脂肪分布、体态)\\n    attire:\\n      business: (工作穿搭含品牌)\\n      casual: (私下穿搭)\\n      accessories: (首饰来源)\\n    scent: (混合气味)\\n    voice: (声线、语速、口癖)\\n\\n  background_story:\\n    Family_Origin:\\n      - (父亲姓名/职业/性格)\\n      - (母亲姓名/职业/性格)\\n      - (家庭氛围)\\n    Childhood_0to12:\\n      - (塑造底色的童年事件)\\n    Adolescence_13to18:\\n      - (求学、友谊、初恋/性启蒙)\\n      - (关键转折点)\\n    Present:\\n      - (现状、经济、居住、心理)\\n      - (与{{user}}的羁绊起始)\\n\\n  personality:\\n    default:\\n      traits:\\n        - 特质1: 深度解析\\n        - 特质2: 深度解析\\n    private_romantic:\\n      traits:\\n        - 反差特质1: 解析\\n        - 反差特质2: 解析\\n\\n  social_status:\\n    Reputation: (外界评价)\\n    NPCs:\\n      - NPC1: 关系描述\\n      - NPC2: 关系描述\\n      - NPC3: 关系描述\\n\\n  lifestyle:\\n    Diet: (口味偏好)\\n    Routine: (作息规律)\\n    Hobbies: (具体爱好)\\n    Living: (居住环境描写)\\n\\n  NSFW_information:\\n    Orientation: \\n    Experience: \\n    Anatomy: (隐私部位具体描写)\\n    Sexual_Role: \\n    Sexual_Habits:\\n      - 前戏偏好\\n      - 性爱风格\\n      - 事后反应\\n    Kinks: (性癖列表及成因)\\n    Limits: (雷点)\\n\`\`\`\\n</character>\\n\\n<writing_rule>\\n(写作风格指导)\\n</writing_rule>\\n</info>",
+  "description": "<info>\\n<character>\\n\`\`\`yaml\\n角色名:\\n  Chinese_name: \\n  Nickname: (朋友/长辈/仇人的不同称呼)\\n  age: \\n  birthday: (具体日期+星座)\\n  gender: \\n  height: \\n  weight: \\n  identity:\\n    - (表层职业)\\n    - (深层身份/爱好)\\n\\n  appearance:\\n    hair: (发色、发质、刘海、染烫)\\n    eyes: (瞳色、眼型、眼神)\\n    skin: (肤色、触感、体温、痣/疤痕/纹身)\\n    face_style: (五官细节)\\n    build: (骨架、肌肉/脂肪分布、体态)\\n    attire:\\n      business: (工作穿搭含品牌)\\n      casual: (私下穿搭)\\n      accessories: (首饰来源)\\n    scent: (混合气味)\\n    voice: (声线、语速、口癖)\\n\\n  background_story:\\n    Family_Origin:\\n      - (父亲姓名/职业/性格)\\n      - (母亲姓名/职业/性格)\\n      - (家庭氛围)\\n    Childhood_0to12:\\n      - (塑造底色的童年事件)\\n    Adolescence_13to18:\\n      - (求学、友谊、初恋/性启蒙)\\n      - (关键转折点)\\n    Present:\\n      - (现状、经济、居住、心理)\\n      - (与{{user}}的羁绊起始)\\n\\n  personality:\\n    default:\\n      traits:\\n        - 特质1: 深度解析\\n        - 特质2: 深度解析\\n    private_romantic:\\n      traits:\\n        - 反差特质1: 解析\\n        - 反差特质2: 解析\\n\\n  social_status:\\n    Reputation: (外界评价)\\n    NPCs:\\n      - NPC1: 关系描述\\n      - NPC2: 关系描述\\n      - NPC3: 关系描述\\n\\n  lifestyle:\\n    Diet: (口味偏好)\\n    Routine: (作息规律)\\n    Hobbies: (具体爱好)\\n    Living: (居住环境描写)\\n${INCLUDE_NSFW_CONTENT ? CHARACTER_CREATION_NSFW_YAML_ZH : ""}\\n\`\`\`\\n</character>\\n\\n<writing_rule>\\n(写作风格指导)\\n</writing_rule>\\n</info>",
   "first_mes": "(一段300-500字以内的沉浸式开场白。必须简洁有力，包含：1. 环境速写。2. 角色当下动作。3. 与{{user}}互动的契机。严格控制在500中文字符以内。)",
   "character_book": {
     "entries": [
